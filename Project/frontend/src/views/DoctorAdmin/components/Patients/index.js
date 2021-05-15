@@ -1,4 +1,6 @@
 import React,{useEffect,useState} from 'react';
+import { useParams } from 'react-router-dom'
+
 import PropTypes from 'prop-types';
 import { makeStyles, mergeClasses } from '@material-ui/styles';
 import {
@@ -125,7 +127,7 @@ const breakPoints = [
 
 const Patients = props => {
   const classes = useStyles();
-
+  const { id } = useParams()
   const [open, setOpen] = React.useState(false);
   const [openMore1, setOpenmore1] = React.useState(false);
   const [openMore2, setOpenmore2] = React.useState(false);
@@ -135,7 +137,7 @@ const Patients = props => {
   const [tvclist, setTvclist] = React.useState([]);
   const [tvdlist, setTvdlist] = React.useState([]);
   const getData = () => {
-    axios.get(`http://localhost:3001/getcabinetvisit/?doctor=`+props.visits.id)
+    axios.get(`http://localhost:3001/getcabinetvisit/?doctor=`+id)
       .then(res => {
         console.log(res.data);
         let vnc = res.data.visit_not_conf
@@ -145,7 +147,7 @@ const Patients = props => {
       })
   }
   useEffect(() => {
-    axios.get(`http://localhost:3001/getcabinetvisit/?doctor=`+props.visits.id)
+    axios.get(`http://localhost:3001/getcabinetvisit/?doctor=`+id)
       .then(res => {
         console.log(res.data);
         let vnc = res.data.visit_not_conf
