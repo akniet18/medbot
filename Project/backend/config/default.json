@@ -1,0 +1,7 @@
+{
+    "dev": {
+      "db": "mongodb://127.0.0.1:27017/med_bot",
+      "port": "3000",
+      "url": "localhost"
+    }
+}

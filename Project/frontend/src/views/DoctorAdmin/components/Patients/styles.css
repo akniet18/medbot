@@ -1,0 +1,42 @@
+.rec.rec-arrow {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    line-height: 30px;
+    color: white;
+    font-size: 1rem;
+    background-color: #434756;
+}
+button.sc-bdvvaa.bSWeAW.rec.rec-arrow.rec.rec-arrow-left:hover{
+    color: white;
+    background-color: #979797;
+}
+button.sc-bdvvaa.bSWeAW.rec.rec-arrow.rec.rec-arrow-right:hover{
+    color: white;
+    background-color: #979797;
+}
+.sc-furvIG.kwvrzb:hover{
+    background-color: #7D7E89
+}
+.imakzv{
+    align-items: center;
+    display: flex;
+}
+
+.ixXTzo {
+    height: 300px!important;
+}
+.MuiButton-containedPrimary {
+    color: #fff;
+    background-color: #6295D8!important;
+}
+p{
+    margin: 0.5rem;
+}
+.centerBtn{
+    padding: '0.5rem 3rem';
+    font-size:' 0.9rem';
+    font-weight: 600;
+    margin: '0.6rem';
+    border-radius: '0.5rem';
+  }

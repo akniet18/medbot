@@ -1,0 +1,60 @@
+.fc-direction-ltr {
+    width: 100%;
+    height: 93vh
+}
+
+.fc-daygrid .fc-day-today {
+    background: #1964C6 !important;
+    border: none !important;
+    border-top: 1px solid #ddd !important;
+    font-weight: bold;
+} 
+.fc-daygrid .fc-day-today {
+    background: #fff !important;
+    border: none !important;
+    border-top: 1px solid #ddd !important;
+    font-weight: bold;
+}
+.fc-daygrid .fc-day-today .fc-daygrid-day-top a{
+    background: #1964C6 !important;
+    color:white;
+    border-radius: 100%;
+    border: none !important;
+    border-top: 1px solid #ddd !important;
+    font-weight: bold;
+}
+.fc-timegrid .fc-day-today {
+    background: #fff !important;
+    /* border: none !important; */
+    border-top: 1px solid #ddd !important;
+    font-weight: bold;
+}
+.fc-daygrid-week-number{
+    display: none;
+}
+.fc-daygrid-day-top{
+    justify-content: center;
+}
+.fc-col-header-cell-cushion{
+    text-transform: uppercase;
+    font-family: 'Roboto';
+    width: 3rem;
+}
+.fc-button-group {
+    width: 60vw;
+    font-family: 'Roboto';
+}
+.fc-button{
+    background-color: #6C6C6C !important
+}
+.fc-timegrid-axis-cushion{
+    display: none;
+}
+.fc-timegrid-event-harness{
+    margin: 5px 5px;
+}
+
+.fc-col-header-cell > .fc-scrollgrid-sync-inner{
+    display: flex;
+    justify-content: center
+}
