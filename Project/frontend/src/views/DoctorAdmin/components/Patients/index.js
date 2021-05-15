@@ -207,6 +207,7 @@ const Patients = props => {
     }
     item['recom'] = a
     item['comment'] = value
+    setOpen(true)
   };
 
   let symptom = ''
