@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, mergeClasses } from '@material-ui/styles';
 import {
@@ -123,18 +123,7 @@ const breakPoints = [
   { width: 1200, itemsToShow: 4 }
 ];
 
-const people = [
-  "Общий анализ крови ",
-  "СОЭ (Cкорость Оседания Эритроцитов)",
-  "Резус-принадлежность",
-  "Общий белок (в крови)",
-  "Предрасположенность к тромбофилии - фолатный обмен (3 гена: MTR, MTRR, MTHFR)",
-  "Ген метилентетрагидрофолатредуктазы - MTHFR (C677T)",
-  "Гепатит А (anti-HAV IgG, anti-HAV IgM)"
-];
-
 const Patients = props => {
-  // const { className } = props;
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
@@ -142,6 +131,30 @@ const Patients = props => {
   const [openMore2, setOpenmore2] = React.useState(false);
   const [item, setItem] = React.useState(false);
   const [value, setValue] = React.useState('');
+  const [vnc, setVnc] = React.useState([]);
+  const [tvclist, setTvclist] = React.useState([]);
+  const [tvdlist, setTvdlist] = React.useState([]);
+  const getData = () => {
+    axios.get(`http://localhost:3001/getcabinetvisit/?doctor=`+props.visits.id)
+      .then(res => {
+        console.log(res.data);
+        let vnc = res.data.visit_not_conf
+        setVnc(vnc)
+        setTvclist(res.data.today_visit_conf)
+        setTvdlist(res.data.today_visit_done)
+      })
+  }
+  useEffect(() => {
+    axios.get(`http://localhost:3001/getcabinetvisit/?doctor=`+props.visits.id)
+      .then(res => {
+        console.log(res.data);
+        let vnc = res.data.visit_not_conf
+        setVnc(vnc)
+        setTvclist(res.data.today_visit_conf)
+        setTvdlist(res.data.today_visit_done)
+      })
+  }, [])
+  
   const handleChange = (event) => {
     setValue(event.target.value);
   };
@@ -173,7 +186,7 @@ const Patients = props => {
   };
   const handleCloseConfirm = () => {
     setOpenConfirm(false);
-    window.location.reload()
+    getData()
   };
   
   const [openComment, setOpenComment] = React.useState(false);
@@ -182,7 +195,6 @@ const Patients = props => {
     setOpenComment(true);
 
   };
-  let recom = ''
   const handleCloseComment = () => {
     setOpenComment(false);
     let a = ''
@@ -206,21 +218,24 @@ const Patients = props => {
   
   const [searchTerm, setSearchTerm] = React.useState("");
   let vis
-  if (props.visits.visit){
+  
+  if (vnc){
     vis = <Carousel breakPoints={breakPoints} pagination={false} focusOnSelect={true}>
-            {props.visits.visit.map((item) => (
-                <Item key={item.id} onClick={() => handleOpen(item)}>
-                    <p className={classes.time}>Пациент {item.patient_surname} {item.patient_name} хочет записаться</p>
-                    <p className={classes.day}>{item.visit_day} {item.visit_time}</p> 
-                    <Button variant="contained" color="primary" style={{padding: '0.5rem 3rem'}}>Просмотреть</Button>
-                </Item>
-            ))}
-          </Carousel>
+              {vnc.map((item) => (
+                  <Item key={item.id} onClick={() => handleOpen(item)}>
+                      <p className={classes.time}>Пациент {item.patient_surname} {item.patient_name} хочет записаться</p>
+                      <p className={classes.day}>{item.visit_day} {item.visit_time}</p> 
+                      <Button variant="contained" color="primary" style={{padding: '0.5rem 3rem'}}>Просмотреть</Button>
+                  </Item>
+              ))}
+            </Carousel>
   }else{
-    vis = <Carousel breakPoints={breakPoints} pagination={false} focusOnSelect={true}>
-            
-          </Carousel>
+      vis = <Carousel breakPoints={breakPoints} pagination={false} focusOnSelect={true}>
+              
+            </Carousel>
   }
+  
+  
   // const [searchResults, setSearchResults] = React.useState([]);
   // const handleChange = e => {
   //   setSearchTerm(e.target.value);
@@ -266,7 +281,7 @@ const Patients = props => {
     axios.post('http://localhost:3001/changetodone', data)
       .then( res => {
         console.log(res.data);
-        window.location.reload();
+        getData()
       }, err => {
         console.log(err);
       })
@@ -280,13 +295,12 @@ const Patients = props => {
     axios.post('http://localhost:3001/changetocancel', data)
       .then( res => {
         console.log(res.data);
-        window.location.reload();
+        getData()
       }, err => {
         console.log(err);
       })
   };
 
-  // options = options.concat(people.map(x => "P - " + x));
   if (props.options.length>0){
     op = <Select
       isMulti
@@ -313,10 +327,10 @@ const Patients = props => {
 
   let tvc = <div></div>
   let tvc_count = 0
-  if (props.tvc.length > 0){
-    tvc_count = props.tvc.length
+  if (tvclist){
+    tvc_count = tvclist.length
     tvc = <div>
-      {props.tvc.map((item)=>(
+      {tvclist.map((item)=>(
         <div  className={classes.sbody}>
           <div>{item.patient_surname} {item.patient_name} - {item.visit_day} {item.visit_time} </div>
           <div>
@@ -328,32 +342,33 @@ const Patients = props => {
       ))}
     </div>    
   }
+  
   let tvd =<div></div>
   let tvd_count = 0
-  if (props.tvd.length > 0){
-    tvd_count = props.tvd.length
-    tvd = <div>
-      {props.tvd.map((item)=>(
-        <div  className={classes.sbody}>
-          <div>{item.patient_surname} {item.patient_name} - {item.visit_day} {item.visit_time}</div>
-          <div>
-            <Icon className="far fa-check-square" color="primary"></Icon>
-            <span> </span>
-            <Icon className="fa fa-times-circle" color="secondary"></Icon>
+  if (tvdlist){
+     tvd_count = tvdlist.length
+      tvd = <div>
+        {tvdlist.map((item)=>(
+          <div  className={classes.sbody}>
+            <div>{item.patient_surname} {item.patient_name} - {item.visit_day} {item.visit_time}</div>
+            <div>
+              <Icon className="far fa-check-square" color="primary"></Icon>
+              <span> </span>
+              <Icon className="fa fa-times-circle" color="secondary"></Icon>
+            </div>
           </div>
-        </div>
-      ))}
-    </div>    
+        ))}
+      </div>    
   }
+
+
+  
 
   const marginTop = {
     backgroundColor:'#F6F6F6',
     height:'300px',
   }
   return (
-     
-    // <Grid container style={marginTop}>
-    //     <Grid container >
     <div style={marginTop}>
           {vis}
           {/* Patient card opens */}
@@ -645,8 +660,6 @@ const Patients = props => {
             </Fade>
           </Modal>
     </div>
-        //  {/* </Grid> 
-    // </Grid> */}
   );
 };
 

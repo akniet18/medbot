@@ -33,13 +33,14 @@ const DoctorAdmin = (props) => {
     const obj = getFromStorage('token')
    
     if(obj && obj.token){
-      axios.get(`http://localhost:3001/getcabinetvisit/?doctor=`+id)
-        .then(res => {
-          console.log(res.data);
-          setVisit({visit: res.data.visit_not_conf, id: id})
-          setTvc(res.data.today_visit_conf)
-          setTvd(res.data.today_visit_done)
-        })
+      // axios.get(`http://localhost:3001/getcabinetvisit/?doctor=`+id)
+      //   .then(res => {
+      //     // console.log(res.data);
+      //     setVisit({visit: res.data.visit_not_conf, id: id})
+      //     setTvc(res.data.today_visit_conf)
+      //     setTvd(res.data.today_visit_done)
+      //   })
+      setVisit({id: id})
       let options = []
       axios.get('http://localhost:3001/getanalysis')
         .then(res => {
