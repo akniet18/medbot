@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 const DoctorAdmin = (props) => {
     const history = useHistory();
     const { id } = useParams()
-    const [visit,setVisit] = useState({});
+    const [visit,setVisit] = useState('');
     const [tvc,setTvc] = useState({});
     const [tvd,setTvd] = useState({});
     const [opt,setOpt] = useState({});
@@ -40,7 +40,13 @@ const DoctorAdmin = (props) => {
       //     setTvc(res.data.today_visit_conf)
       //     setTvd(res.data.today_visit_done)
       //   })
-      setVisit({id: id})
+      axios.get(`http://localhost:3001/getdoctors/?doctor=`+id+'&user=1')
+      .then(res => {
+        // console.log(res.data);
+        const fio = res.data.doctor.surname +' '+res.data.doctor.name+' '+res.data.doctor.patronymic
+        setVisit(fio)
+      })
+      
       let options = []
       axios.get('http://localhost:3001/getanalysis')
         .then(res => {
@@ -63,10 +69,10 @@ const DoctorAdmin = (props) => {
     <div className={classes.root}>
       <Grid container justify="center" spacing={4}>
         <Grid item lg={12} xs={12}>
-            <Calendar {...props} 
+            <Calendar {...props}  visits={visit}
             // header={header}
             ></Calendar>
-            <Patients {...props} visits={visit} options={opt} tvc={tvc} tvd={tvd}
+            <Patients {...props} options={opt} tvc={tvc} tvd={tvd}
             //  description={description}
              ></Patients>
             {/*<Timetable {...props}></Timetable>

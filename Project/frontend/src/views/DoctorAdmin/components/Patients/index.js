@@ -219,10 +219,15 @@ const Patients = props => {
   }
   
   const [searchTerm, setSearchTerm] = React.useState("");
-  let vis
+  let vis = <Carousel breakPoints={breakPoints} pagination={false} focusOnSelect={true}>
+              <Item key={1}>
+                <p>на данный момент нет новых записей</p>
+              </Item>
+           </Carousel>
   
   if (vnc){
-    vis = <Carousel breakPoints={breakPoints} pagination={false} focusOnSelect={true}>
+    if (vnc.length>0){
+      vis = <Carousel breakPoints={breakPoints} pagination={false} focusOnSelect={true}>
               {vnc.map((item) => (
                   <Item key={item.id} onClick={() => handleOpen(item)}>
                       <p className={classes.time}>Пациент {item.patient_surname} {item.patient_name} хочет записаться</p>
@@ -231,10 +236,8 @@ const Patients = props => {
                   </Item>
               ))}
             </Carousel>
-  }else{
-      vis = <Carousel breakPoints={breakPoints} pagination={false} focusOnSelect={true}>
-              
-            </Carousel>
+    }
+    
   }
   
   
@@ -354,24 +357,19 @@ const Patients = props => {
           <div  className={classes.sbody}>
             <div>{item.patient_surname} {item.patient_name} - {item.visit_day} {item.visit_time}</div>
             <div>
-              <Icon className="far fa-check-square" color="primary"></Icon>
-              <span> </span>
-              <Icon className="fa fa-times-circle" color="secondary"></Icon>
+              
             </div>
           </div>
         ))}
       </div>    
   }
-
-
-  
-
   const marginTop = {
     backgroundColor:'#F6F6F6',
     height:'300px',
   }
   return (
     <div style={marginTop}>
+          
           {vis}
           {/* Patient card opens */}
           <Modal

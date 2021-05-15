@@ -32,7 +32,6 @@ const DoctorProfile = (props) => {
   const { id,user_id } = useParams()
 
   useEffect(() => {
-      
       axios.get(`http://localhost:3001/getdoctors/?doctor=`+id+'&user='+user_id)
       .then(res => {
         console.log(res.data);

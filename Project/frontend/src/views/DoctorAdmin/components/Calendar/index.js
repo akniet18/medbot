@@ -22,8 +22,11 @@ import "@fullcalendar/core";
 
 const useStyles = makeStyles(() => ({
   root: {} ,
+  h2: {
+    textAlign: 'center',
+    width: '100%'
+  }
 }));
-
 const CalendarContainer = props => {
   const classes = useStyles();
     const events = [ 
@@ -39,11 +42,13 @@ const CalendarContainer = props => {
       start: getDate("YEAR-MONTH-28T10:30:00+00:00"),
       end: getDate("YEAR-MONTH-28T11:00:00+00:00")
     }
-] 
+
+  ] 
+
 
   return (
     <Grid container style={{padding:'5rem'}}>
-        
+        <h2 className={classes.h2}>{props.visits}</h2>
         {/* <Grid container direction='column' item md={12} xs={12} justify='center'alignItems='center' > */}
         <FullCalendar
             // plugins = { [bootstrapPlugin] }
@@ -78,7 +83,7 @@ const CalendarContainer = props => {
                 titleFormat: { weekday: 'short', month: '2-digit', day: '2-digit' }
               }
             }}
-            eventColor= '#378006'
+            eventColor= '#1963C6'
         />
         {/* </Grid> */}
     </Grid>
